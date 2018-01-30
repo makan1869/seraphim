@@ -8,7 +8,7 @@ import java.util.Set;
 public class Content {
 
     public static enum ContentType {
-        SERIES, SEASON, ALBUM, MOVIE, TRACK, IMAGE, TEXT
+        VIDEO, AUDIO, IMAGE, TEXT
     }
 
 
@@ -16,10 +16,12 @@ public class Content {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private  ContentType type;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private File file;
+
 
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -30,8 +32,11 @@ public class Content {
     private Set<Tag> tags;
 
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
+
+    @ManyToMany(mappedBy = "contents", cascade = CascadeType.ALL)
+    private Set<Collection> collections;
 
 
 }
